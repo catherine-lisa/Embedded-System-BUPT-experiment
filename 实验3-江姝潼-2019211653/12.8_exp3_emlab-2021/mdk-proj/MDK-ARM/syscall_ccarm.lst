@@ -1,0 +1,167 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+    3 00000000                 THUMB
+    4 00000000                 REQUIRE8
+    5 00000000                 PRESERVE8
+    6 00000000         
+    7 00000000 00000000 
+                       SYS_system_call
+                               EQU              0
+    8 00000000 00000001 
+                       SYS_fork
+                               EQU              1
+    9 00000000 00000002 
+                       SYS_call_test
+                               EQU              2
+   10 00000000         
+   11 00000000                 MACRO                        ; start macro defin
+                                                            ition
+   12 00000000                 SYSCALL          $funcname
+   13 00000000         $funcname
+                               PROC
+   14 00000000                 EXPORT           $funcname
+   15 00000000                 push             {r12, lr}   ;   
+   16 00000000                 mov              r12, #SYS_$funcname ;
+   17 00000000                 svc              0           ;     
+   18 00000000                 nop                          ;      
+   19 00000000                 pop              {r12, lr}   ;    
+   20 00000000                 bx               lr          ;
+   21 00000000                 ENDP
+   22 00000000                 MEND
+   23 00000000         
+   24 00000000         ;syscall user function definition
+   25 00000000                 SYSCALL          system_call
+   13 00000000         system_call
+                               PROC
+   14 00000000                 EXPORT           system_call
+   15 00000000 E92D 5000       push             {r12, lr}   ;   
+   16 00000004 F04F 0C00       mov              r12, #SYS_system_call ;
+   17 00000008 DF00            svc              0           ;     
+   18 0000000A BF00            nop                          ;      
+   19 0000000C E8BD 5000       pop              {r12, lr}   ;    
+   20 00000010 4770            bx               lr          ;
+   21 00000012                 ENDP
+   26 00000012                 SYSCALL          call_test
+   13 00000012         call_test
+                               PROC
+   14 00000012                 EXPORT           call_test
+   15 00000012 E92D 5000       push             {r12, lr}   ;   
+   16 00000016 F04F 0C02       mov              r12, #SYS_call_test ;
+   17 0000001A DF00            svc              0           ;     
+   18 0000001C BF00            nop                          ;      
+   19 0000001E E8BD 5000       pop              {r12, lr}   ;    
+   20 00000022 4770            bx               lr          ;
+   21 00000024                 ENDP
+   27 00000024                 SYSCALL          fork
+   13 00000024         fork    PROC
+   14 00000024                 EXPORT           fork
+   15 00000024 E92D 5000       push             {r12, lr}   ;   
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   16 00000028 F04F 0C01       mov              r12, #SYS_fork ;
+   17 0000002C DF00            svc              0           ;     
+   18 0000002E BF00            nop                          ;      
+   19 00000030 E8BD 5000       pop              {r12, lr}   ;    
+   20 00000034 4770            bx               lr          ;
+   21 00000036                 ENDP
+   28 00000036         
+   29 00000036         
+   30 00000036                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=mdk-proj\syscall_ccarm.d -omdk-proj\syscall_ccarm.o -I.\RTE\_md
+k-proj -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include -IC:\Keil_v5\AR
+M\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include --pr
+edefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 523" --predefin
+e="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --list=syscall_ccarm.lst ..\.
+.\lab-src\lab\project1\syscall_ccarm.S
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 2 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      None
+Comment: .text unused
+call_test 00000012
+
+Symbol: call_test
+   Definitions
+      At line 13 in macro SYSCALL
+      at line 26 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      At line 14 in macro SYSCALL
+      at line 26 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+Comment: call_test used once
+fork 00000024
+
+Symbol: fork
+   Definitions
+      At line 13 in macro SYSCALL
+      at line 27 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      At line 14 in macro SYSCALL
+      at line 27 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+Comment: fork used once
+system_call 00000000
+
+Symbol: system_call
+   Definitions
+      At line 13 in macro SYSCALL
+      at line 25 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      At line 14 in macro SYSCALL
+      at line 25 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+Comment: system_call used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+SYS_call_test 00000002
+
+Symbol: SYS_call_test
+   Definitions
+      At line 9 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      At line 16 in macro SYSCALL
+      at line 26 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+Comment: SYS_call_test used once
+SYS_fork 00000001
+
+Symbol: SYS_fork
+   Definitions
+      At line 8 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      At line 16 in macro SYSCALL
+      at line 27 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+Comment: SYS_fork used once
+SYS_system_call 00000000
+
+Symbol: SYS_system_call
+   Definitions
+      At line 7 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+   Uses
+      At line 16 in macro SYSCALL
+      at line 25 in file ..\..\lab-src\lab\project1\syscall_ccarm.S
+Comment: SYS_system_call used once
+3 symbols
+342 symbols in table
